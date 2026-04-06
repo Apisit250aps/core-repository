@@ -1,4 +1,5 @@
 import type {
+  Collection,
   MongoClient,
   IndexDescription,
   Filter,
@@ -30,6 +31,10 @@ abstract class Repository<T extends Entity> {
     return this.client.db().collection<T>(this.collectionName)
   }
 
+  public async collection(): Promise<Collection<T>> {
+    return this.getCollection()
+  }
+
   private async createIndexes(): Promise<void> {
     const collection = await this.getCollection()
 
@@ -56,6 +61,111 @@ abstract class Repository<T extends Entity> {
         `Validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       )
     }
+  }
+
+  public async findOne(
+    ...args: Parameters<Collection<T>['findOne']>
+  ): ReturnType<Collection<T>['findOne']> {
+    const collection = await this.getCollection()
+    return collection.findOne(...args)
+  }
+
+  public async findCursor(
+    ...args: Parameters<Collection<T>['find']>
+  ): Promise<ReturnType<Collection<T>['find']>> {
+    const collection = await this.getCollection()
+    return collection.find(...args)
+  }
+
+  public async aggregateCursor(
+    ...args: Parameters<Collection<T>['aggregate']>
+  ): Promise<ReturnType<Collection<T>['aggregate']>> {
+    const collection = await this.getCollection()
+    return collection.aggregate(...args)
+  }
+
+  public async countDocuments(
+    ...args: Parameters<Collection<T>['countDocuments']>
+  ): ReturnType<Collection<T>['countDocuments']> {
+    const collection = await this.getCollection()
+    return collection.countDocuments(...args)
+  }
+
+  public async distinct(
+    ...args: Parameters<Collection<T>['distinct']>
+  ): ReturnType<Collection<T>['distinct']> {
+    const collection = await this.getCollection()
+    return collection.distinct(...args)
+  }
+
+  public async insertOne(
+    ...args: Parameters<Collection<T>['insertOne']>
+  ): ReturnType<Collection<T>['insertOne']> {
+    const collection = await this.getCollection()
+    return collection.insertOne(...args)
+  }
+
+  public async insertMany(
+    ...args: Parameters<Collection<T>['insertMany']>
+  ): ReturnType<Collection<T>['insertMany']> {
+    const collection = await this.getCollection()
+    return collection.insertMany(...args)
+  }
+
+  public async updateOne(
+    ...args: Parameters<Collection<T>['updateOne']>
+  ): ReturnType<Collection<T>['updateOne']> {
+    const collection = await this.getCollection()
+    return collection.updateOne(...args)
+  }
+
+  public async updateMany(
+    ...args: Parameters<Collection<T>['updateMany']>
+  ): ReturnType<Collection<T>['updateMany']> {
+    const collection = await this.getCollection()
+    return collection.updateMany(...args)
+  }
+
+  public async replaceOne(
+    ...args: Parameters<Collection<T>['replaceOne']>
+  ): ReturnType<Collection<T>['replaceOne']> {
+    const collection = await this.getCollection()
+    return collection.replaceOne(...args)
+  }
+
+  public async deleteOne(
+    ...args: Parameters<Collection<T>['deleteOne']>
+  ): ReturnType<Collection<T>['deleteOne']> {
+    const collection = await this.getCollection()
+    return collection.deleteOne(...args)
+  }
+
+  public async deleteMany(
+    ...args: Parameters<Collection<T>['deleteMany']>
+  ): ReturnType<Collection<T>['deleteMany']> {
+    const collection = await this.getCollection()
+    return collection.deleteMany(...args)
+  }
+
+  public async findOneAndUpdate(
+    ...args: Parameters<Collection<T>['findOneAndUpdate']>
+  ): ReturnType<Collection<T>['findOneAndUpdate']> {
+    const collection = await this.getCollection()
+    return collection.findOneAndUpdate(...args)
+  }
+
+  public async findOneAndDelete(
+    ...args: Parameters<Collection<T>['findOneAndDelete']>
+  ): ReturnType<Collection<T>['findOneAndDelete']> {
+    const collection = await this.getCollection()
+    return collection.findOneAndDelete(...args)
+  }
+
+  public async findOneAndReplace(
+    ...args: Parameters<Collection<T>['findOneAndReplace']>
+  ): ReturnType<Collection<T>['findOneAndReplace']> {
+    const collection = await this.getCollection()
+    return collection.findOneAndReplace(...args)
   }
 
   public async create(item: CreateInput<T>): Promise<T> {

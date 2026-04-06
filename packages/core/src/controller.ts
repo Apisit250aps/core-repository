@@ -32,7 +32,7 @@ abstract class Controller<T extends Entity> {
 
   async get(c: Context): Promise<Response> {
     try {
-      const items = await this.repository.findAll()
+      const items = await this.repository.findAll({})
       return c.json<ApiResponse<T[]>>({
         success: true,
         message: 'Fetched successfully',
@@ -87,7 +87,19 @@ abstract class Controller<T extends Entity> {
   async create(c: Context): Promise<Response> {
     try {
       const body = await c.req.json<CreateInput<T>>()
-      const created = await this.repository.create(body)
+      const validate = await this.repository.safeValidate(body)
+      if (!validate.success) {
+        return c.json<ApiResponse<null>>(
+          {
+            success: false,
+            message: 'Validation failed',
+            data: null,
+            error: validate.error.message,
+          },
+          400,
+        )
+      }
+      const created = await this.repository.create(validate.data)
       return c.json<ApiResponse<T>>(
         {
           success: true,
