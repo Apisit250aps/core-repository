@@ -27,7 +27,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@aps/core-types": "^0.1.0"
+    "@aps/core-types": "file:../types"
   },
   "peerDependencies": {
     "hono": "^4.0.0",
