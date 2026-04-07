@@ -2,7 +2,7 @@ import { z } from 'zod'
 import Repository, { BaseEntitySchema } from '@aps/next-api-core/repository'
 import type { CreateInput, UpdateInput } from '@aps/next-api-types'
 import type { MongoClient } from 'mongodb'
-import client from '@/lib/mongo'
+import client from '../lib/mongo'
 
 const userSchema = BaseEntitySchema(
   z.object({

@@ -10,5 +10,5 @@ app.get('/', (c) => {
 })
 
 app.route('/api', users.routes())
-
+app.route('/', users.routes())
 export default app
