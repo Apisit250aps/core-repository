@@ -1,5 +1,11 @@
 import { serve } from '@hono/node-server'
 import app from '@/app'
+import { userRepo } from '@/repositories/user.repo'
+userRepo.create({
+  name: 'John Doe a',
+  email: 'john.doe@examples.com',
+  password: 'password123',
+})
 
 serve(
   {

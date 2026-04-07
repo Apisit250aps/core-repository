@@ -10,20 +10,18 @@ import type Repository from './repository'
 abstract class Controller<T extends Entity> {
   abstract readonly repository: Repository<T>
   abstract readonly prefix: string
-  protected app: Hono
+  public app: Hono
 
   constructor() {
     this.app = new Hono()
-    this.registered()
-    return this
   }
 
   protected registered(): void {
-    this.app.get(`${this.prefix}/`, (c) => this.get(c))
-    this.app.get(`${this.prefix}/:id`, (c) => this.getById(c))
-    this.app.post(`${this.prefix}/`, (c) => this.create(c))
-    this.app.put(`${this.prefix}/:id`, (c) => this.update(c))
-    this.app.delete(`${this.prefix}/:id`, (c) => this.delete(c))
+    this.app.get(`/${this.prefix}/`, (c) => this.get(c))
+    this.app.get(`/${this.prefix}/:id`, (c) => this.getById(c))
+    this.app.post(`/${this.prefix}/`, (c) => this.create(c))
+    this.app.put(`/${this.prefix}/:id`, (c) => this.update(c))
+    this.app.delete(`/${this.prefix}/:id`, (c) => this.delete(c))
   }
 
   public routes(): Hono {

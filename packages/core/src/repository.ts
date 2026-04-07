@@ -24,31 +24,41 @@ export const BaseEntitySchema = <T extends z.ZodRawShape>(
   })
 }
 
-abstract class Repository<T extends Entity> {
-  abstract readonly collectionName: string
+type RepositoryOptions<T extends Entity> = {
+  collectionName: string
+  schema: z.ZodType<T>
+  indexes?: IndexDescription[]
+}
 
-  abstract readonly schema: z.ZodType<T>
-  abstract readonly indexes: IndexDescription[]
-  abstract collection: Collection<T>
+abstract class Repository<T extends Entity> {
+  readonly collectionName: string
+  readonly schema: z.ZodType<T>
+  readonly indexes: IndexDescription[]
+  collection: Collection<T>
+  private readyPromise: Promise<void>
 
   protected client: MongoClient
 
-  constructor(client: MongoClient) {
+  constructor(client: MongoClient, options: RepositoryOptions<T>) {
     this.client = client
-    this.setCollection().catch((error) => {
-      console.error(
-        `Error setting collection for ${this.collectionName}:`,
-        error,
-      )
-    })
+    this.collectionName = options.collectionName
+    this.schema = options.schema
+    this.indexes = options.indexes ?? []
+    this.collection = this.client.db().collection<T>(this.collectionName)
+    this.readyPromise = this.setup()
   }
 
-  private async setCollection() {
-    this.collection = this.client.db().collection<T>(this.collectionName)
+  private async setup() {
+    await this.client.connect()
     await this.collection.createIndexes([
       { key: { id: 1 }, unique: true },
       ...this.indexes,
     ])
+  }
+
+  private async getCollection(): Promise<Collection<T>> {
+    await this.readyPromise
+    return this.collection
   }
 
   public async safeValidate(item: unknown) {
@@ -66,9 +76,10 @@ abstract class Repository<T extends Entity> {
   }
 
   public async create(item: CreateInput<T>): Promise<T> {
+    const collection = await this.getCollection()
     const data = await this.validate(item)
 
-    const insertResult = await this.collection.insertOne(
+    const insertResult = await collection.insertOne(
       data as OptionalUnlessRequiredId<T>,
     )
 
@@ -80,8 +91,9 @@ abstract class Repository<T extends Entity> {
   }
 
   public async findById(id: string): Promise<T | null> {
+    const collection = await this.getCollection()
     try {
-      const document = await this.collection.findOne(
+      const document = await collection.findOne(
         {
           id,
         } as unknown as Filter<T>,
@@ -99,8 +111,9 @@ abstract class Repository<T extends Entity> {
     filters: Filter<T>,
     options?: FindOptions & Abortable,
   ): Promise<T[]> {
+    const collection = await this.getCollection()
     try {
-      const documents = await this.collection
+      const documents = await collection
         .find(
           {
             ...filters,
@@ -120,13 +133,14 @@ abstract class Repository<T extends Entity> {
   }
 
   public async update(id: string, item: UpdateInput<T>): Promise<T> {
+    const collection = await this.getCollection()
     const now = new Date()
     const dataToUpdate = {
       ...item,
       updatedAt: now,
     }
 
-    const updateResult = await this.collection.findOneAndUpdate(
+    const updateResult = await collection.findOneAndUpdate(
       { id } as unknown as Filter<T>,
       { $set: dataToUpdate } as UpdateFilter<T>,
       { returnDocument: 'after', projection: { _id: 0 } },
@@ -140,7 +154,8 @@ abstract class Repository<T extends Entity> {
   }
 
   public async delete(id: string): Promise<void> {
-    const deleteResult = await this.collection.deleteOne({
+    const collection = await this.getCollection()
+    const deleteResult = await collection.deleteOne({
       id,
     } as unknown as Filter<T>)
 
@@ -152,7 +167,8 @@ abstract class Repository<T extends Entity> {
   public async aggregate(
     ...args: Parameters<Collection<T>['aggregate']>
   ): Promise<ReturnType<Collection<T>['aggregate']>> {
-    return this.collection.aggregate(...args)
+    const collection = await this.getCollection()
+    return collection.aggregate(...args)
   }
 }
 
