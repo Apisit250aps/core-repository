@@ -14,7 +14,7 @@ Release date: 2026-04-07
 ### Install
 
 ```bash
-npm install git+https://github.com/Apisit250aps/core-repository.git#v0.1.0
+npm install git+https://github.com/Apisit250aps/next-api.git#v0.1.0
 ```
 
 ### Import

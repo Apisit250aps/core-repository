@@ -34,7 +34,7 @@ npm run build:all
 Use the tagged release for reproducible installs:
 
 ```bash
-npm install git+https://github.com/Apisit250aps/core-repository.git#v0.1.0
+npm install git+https://github.com/Apisit250aps/next-api.git#v0.1.0
 ```
 
 The root package is published from git as `@aps/next-api` and exposes stable subpaths.

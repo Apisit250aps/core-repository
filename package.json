@@ -78,10 +78,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Apisit250aps/core-repository.git"
+    "url": "git+https://github.com/Apisit250aps/next-api.git"
   },
   "bugs": {
-    "url": "https://github.com/Apisit250aps/core-repository/issues"
+    "url": "https://github.com/Apisit250aps/next-api/issues"
   },
-  "homepage": "https://github.com/Apisit250aps/core-repository#readme"
+  "homepage": "https://github.com/Apisit250aps/next-api#readme"
 }
