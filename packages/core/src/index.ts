@@ -1,2 +1,3 @@
 export { default as Controller } from './controller'
-export { default as Repository, BaseEntitySchema } from './repository'
+export { default as Repository } from './repository'
+export * from './field'

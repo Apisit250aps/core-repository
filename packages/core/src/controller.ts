@@ -11,8 +11,7 @@ abstract class Controller<T extends Entity> {
   abstract readonly repository: Repository<T>
   abstract readonly prefix: string
   public app: Hono
-  private isRegistered = false
-
+  
   constructor() {
     this.app = new Hono()
   }

@@ -17,6 +17,10 @@
     "./repository": {
       "types": "./dist/repository.d.ts",
       "default": "./dist/repository.js"
+    },
+    "./field": {
+      "types": "./dist/field.d.ts",
+      "default": "./dist/field.js"
     }
   },
   "files": [

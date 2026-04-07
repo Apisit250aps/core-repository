@@ -9,55 +9,31 @@ import type {
   Abortable,
 } from 'mongodb'
 
-import { v7 as uuidv7 } from 'uuid'
 import { z } from 'zod'
 import type { Entity, CreateInput, UpdateInput } from '@aps/next-api-types'
 
-export const BaseEntitySchema = <T extends z.ZodRawShape>(
-  schema: z.ZodObject<T>,
-) => {
-  return z.object({
-    id: z.uuid().default(() => uuidv7()),
-    ...schema.shape,
-    createdAt: z.date().default(() => new Date()),
-    updatedAt: z.date().default(() => new Date()),
-  })
-}
-
-type RepositoryOptions<T extends Entity> = {
-  collectionName: string
-  schema: z.ZodType<T>
-  indexes?: IndexDescription[]
-}
-
 abstract class Repository<T extends Entity> {
-  readonly collectionName: string
-  readonly schema: z.ZodType<T>
-  readonly indexes: IndexDescription[]
-  collection: Collection<T>
-  private readyPromise: Promise<void>
+  abstract readonly collectionName: string
+  abstract readonly schema: z.ZodType<T>
+  readonly indexes: IndexDescription[] = []
+  private collection: Collection<T> | null = null
 
   protected client: MongoClient
 
-  constructor(client: MongoClient, options: RepositoryOptions<T>) {
+  constructor(client: MongoClient) {
     this.client = client
-    this.collectionName = options.collectionName
-    this.schema = options.schema
-    this.indexes = options.indexes ?? []
-    this.collection = this.client.db().collection<T>(this.collectionName)
-    this.readyPromise = this.setup()
-  }
-
-  private async setup() {
-    await this.client.connect()
-    await this.collection.createIndexes([
-      { key: { id: 1 }, unique: true },
-      ...this.indexes,
-    ])
   }
 
   private async getCollection(): Promise<Collection<T>> {
-    await this.readyPromise
+    if (!this.collection) {
+      await this.client.connect()
+      const collection = this.client.db().collection<T>(this.collectionName)
+      await collection.createIndexes([
+        { key: { id: 1 }, unique: true },
+        ...this.indexes,
+      ])
+      this.collection = collection
+    }
     return this.collection
   }
 
