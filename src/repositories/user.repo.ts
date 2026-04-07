@@ -17,7 +17,14 @@ type UpdateUserInput = UpdateInput<User>
 class UserRepository extends Repository<User> {
   readonly collectionName = 'users'
   readonly schema = userSchema
-  override readonly indexes = [{ key: { email: 1 }, unique: true }]
+  override readonly indexes = [
+    {
+      key: { email: 1 },
+      unique: true,
+      name: 'email_unique_index',
+      partialFilterExpression: { deletedAt: null },
+    },
+  ]
 }
 
 export const userRepo = new UserRepository(client)

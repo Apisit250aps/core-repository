@@ -72,8 +72,9 @@ abstract class BaseRepository<T extends Entity> {
       const document = await collection.findOne(
         {
           id,
+          deletedAt: null,
         } as unknown as Filter<T>,
-        { projection: { _id: 0 } },
+        { projection: { _id: 0, deletedAt: 0 } },
       )
       return document as T | null
     } catch (error) {
@@ -93,9 +94,10 @@ abstract class BaseRepository<T extends Entity> {
         .find(
           {
             ...filters,
+            deletedAt: null,
           },
           {
-            projection: { _id: 0 },
+            projection: { _id: 0, deletedAt: 0 },
             ...options,
           },
         )
@@ -117,9 +119,9 @@ abstract class BaseRepository<T extends Entity> {
     }
 
     const updateResult = await collection.findOneAndUpdate(
-      { id } as unknown as Filter<T>,
+      { id, deletedAt: null } as unknown as Filter<T>,
       { $set: dataToUpdate } as UpdateFilter<T>,
-      { returnDocument: 'after', projection: { _id: 0 } },
+      { returnDocument: 'after', projection: { _id: 0, deletedAt: 0 } },
     )
 
     if (!updateResult || !updateResult.value) {
@@ -131,11 +133,12 @@ abstract class BaseRepository<T extends Entity> {
 
   public async delete(id: string): Promise<void> {
     const collection = await this.getCollection()
-    const deleteResult = await collection.deleteOne({
-      id,
-    } as unknown as Filter<T>)
+    const deleteResult = await collection.updateOne(
+      { id, deletedAt: null } as unknown as Filter<T>,
+      { $set: { deletedAt: new Date() } } as unknown as UpdateFilter<T>,
+    )
 
-    if (deleteResult.deletedCount === 0) {
+    if (deleteResult.matchedCount === 0) {
       throw new Error(`Document with id ${id} not found`)
     }
   }
