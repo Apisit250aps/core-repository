@@ -70,7 +70,7 @@ abstract class BaseController<T extends Entity> {
       normalizedPath = `${normalizedPath.slice(1)}`
     }
     const fullPath = this.getBasePath(normalizedPath)
-    const routeSignature = `${method} ${fullPath}`
+    const routeSignature = `${method} ${this.group.length ? `/${this.group}/` : ''}${fullPath}`
 
     if (this.registeredRoutes.includes(routeSignature)) {
       throw new Error(
@@ -98,8 +98,7 @@ abstract class BaseController<T extends Entity> {
 
   private getBasePath(sub?: string): string {
     const prefix = this.prefix?.trim().replace(/^\/+|\/+$/g, '')
-    const group = this.group?.trim().replace(/^\/+|\/+$/g, '')
-    const path = [group, prefix, sub].filter(Boolean).join('/')
+    const path = [prefix, sub].filter(Boolean).join('/')
     return path ? `/${path}` : '/'
   }
 
