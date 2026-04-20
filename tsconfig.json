@@ -14,21 +14,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@aps/next-api-core": [
-        "./packages/dist/index.d.ts"
-      ],
-      "@aps/next-api-core/controller": [
-        "./packages/dist/controller/index.d.ts"
-      ],
-      "@aps/next-api-core/repository": [
-        "./packages/dist/repository/index.d.ts"
-      ],
-      "@aps/next-api-core/fields": [
-        "./packages/dist/fields/index.d.ts"
-      ],
-      "@aps/next-api-types": [
-        "./packages/src/types/index.d.ts"
       ]
     },
     "outDir": "./dist",

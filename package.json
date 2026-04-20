@@ -20,13 +20,9 @@
       "types": "./packages/dist/repository/index.d.ts",
       "default": "./packages/dist/repository/index.js"
     },
-    "./fields": {
-      "types": "./packages/dist/fields/index.d.ts",
-      "default": "./packages/dist/fields/index.js"
-    },
-    "./field": {
-      "types": "./packages/dist/fields/index.d.ts",
-      "default": "./packages/dist/fields/index.js"
+    "./entities": {
+      "types": "./packages/dist/entities/index.d.ts",
+      "default": "./packages/dist/entities/index.js"
     },
     "./package.json": "./package.json"
   },

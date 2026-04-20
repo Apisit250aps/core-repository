@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { uuidv7 } from '@/lib/uuid'
+import { uuidv7 } from '../utils/uuid/index.js'
 
 export const BaseEntity = <T extends z.ZodRawShape>(schema: T) => {
   return z.object({

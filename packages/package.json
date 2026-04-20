@@ -18,13 +18,9 @@
       "types": "./dist/repository/index.d.ts",
       "default": "./dist/repository/index.js"
     },
-    "./fields": {
-      "types": "./dist/fields/index.d.ts",
-      "default": "./dist/fields/index.js"
-    },
-    "./field": {
-      "types": "./dist/fields/index.d.ts",
-      "default": "./dist/fields/index.js"
+    "./entities": {
+      "types": "./dist/entities/index.d.ts",
+      "default": "./dist/entities/index.js"
     }
   },
   "files": [
