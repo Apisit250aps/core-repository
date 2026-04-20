@@ -11,7 +11,7 @@ import { uuidv7 } from './utils.js'
 import { BaseEntitySchema } from './model.js'
 
 import { z } from 'zod'
-import type { Entity, CreateInput, UpdateInput } from '@aps/next-api-types'
+import type { Entity, CreateInput, UpdateInput } from '@aps/next-api'
 
 abstract class Repository<T extends Entity> {
   abstract readonly collectionName: string

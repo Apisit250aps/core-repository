@@ -5,56 +5,54 @@
   "license": "MIT",
   "description": "Reusable Hono and MongoDB controller/repository toolkit with shared API types.",
   "type": "module",
-  "main": "./packages/core/dist/index.js",
-  "types": "./packages/core/dist/index.d.ts",
+  "main": "./packages/dist/index.js",
+  "types": "./packages/dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./packages/core/dist/index.d.ts",
-      "default": "./packages/core/dist/index.js"
+      "types": "./packages/dist/index.d.ts",
+      "default": "./packages/dist/index.js"
     },
     "./controller": {
-      "types": "./packages/core/dist/controller.d.ts",
-      "default": "./packages/core/dist/controller.js"
+      "types": "./packages/dist/controller/index.d.ts",
+      "default": "./packages/dist/controller/index.js"
     },
     "./repository": {
-      "types": "./packages/core/dist/repository.d.ts",
-      "default": "./packages/core/dist/repository.js"
+      "types": "./packages/dist/repository/index.d.ts",
+      "default": "./packages/dist/repository/index.js"
     },
     "./base-controller": {
-      "types": "./packages/core/dist/base-controller.d.ts",
-      "default": "./packages/core/dist/base-controller.js"
+      "types": "./packages/dist/controller/base-controller.d.ts",
+      "default": "./packages/dist/controller/base-controller.js"
     },
     "./base-repository": {
-      "types": "./packages/core/dist/base-repository.d.ts",
-      "default": "./packages/core/dist/base-repository.js"
+      "types": "./packages/dist/repository/base-repository.d.ts",
+      "default": "./packages/dist/repository/base-repository.js"
+    },
+    "./fields": {
+      "types": "./packages/dist/fields/index.d.ts",
+      "default": "./packages/dist/fields/index.js"
     },
     "./field": {
-      "types": "./packages/core/dist/field.d.ts",
-      "default": "./packages/core/dist/field.js"
-    },
-    "./types": {
-      "types": "./packages/types/dist/index.d.ts",
-      "default": "./packages/types/dist/index.js"
+      "types": "./packages/dist/fields/index.d.ts",
+      "default": "./packages/dist/fields/index.js"
     },
     "./package.json": "./package.json"
   },
   "files": [
-    "packages/core",
-    "packages/types",
+    "packages",
     "README.md",
     "release"
   ],
   "scripts": {
     "dev": "tsx watch --env-file=.env src/index.ts",
-    "build": "tsc",
-    "build:types": "npm run build --prefix packages/types",
-    "build:core": "npm run build --prefix packages/core",
-    "build:packages": "npm run build:types && npm run build:core",
+    "build": "npm.cmd run build:packages && tsc",
+    "build:core": "npm run build --prefix packages",
+    "build:packages": "npm run build:core",
     "build:all": "npm run build:packages && npm run build",
     "prepare": "npm run build:packages",
     "start": "node dist/index.js",
     "lint": "eslint",
-    "clean:packages": "npm run clean --prefix packages/types && npm run clean --prefix packages/core"
+    "clean:packages": "npm run clean --prefix packages"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.12",

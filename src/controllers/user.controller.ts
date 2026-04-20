@@ -1,4 +1,4 @@
-import Controller from '@aps/next-api-core/controller'
+import Controller from '@aps/next-api/controller'
 import { userRepo, type User } from '../repositories/user.repo.js'
 
 class UserController extends Controller<User> {

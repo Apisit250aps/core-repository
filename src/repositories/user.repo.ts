@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import Repository from '@aps/next-api-core/repository'
-import type { CreateInput, UpdateInput } from '@aps/next-api-types'
+import Repository from '@aps/next-api/repository'
+import type { CreateInput, UpdateInput } from '@aps/next-api'
 import client from '../lib/mongo/index.js'
-import { BaseEntity, EmailField, StringField } from '@aps/next-api-core/field'
+import { BaseEntity, EmailField, StringField } from '@aps/next-api/field'
 import type { IndexDescription } from 'mongodb'
 
 const userSchema = BaseEntity({

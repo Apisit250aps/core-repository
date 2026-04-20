@@ -3,7 +3,7 @@ import type {
   Entity,
   CreateInput,
   UpdateInput,
-} from '@aps/next-api-types'
+} from '@aps/next-api'
 import type Repository from '../repository/index.js'
 import { Hono, type Context } from 'hono'
 

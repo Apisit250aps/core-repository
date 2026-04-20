@@ -39,8 +39,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "clean": "rimraf dist"
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "clean": "node -e \"const fs=require('node:fs');const path=require('node:path');if(fs.existsSync('dist'))fs.rmSync('dist',{recursive:true,force:true});const walk=(dir)=>{for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const full=path.join(dir,entry.name);if(entry.isDirectory())walk(full);else if(entry.isFile()&&full.endsWith('.js'))fs.rmSync(full,{force:true});}};if(fs.existsSync('src'))walk('src');\""
   },
   "peerDependencies": {
     "hono": "^4.0.0",
