@@ -1,4 +1,4 @@
-export type { ApiResponse } from './api'
+export type { ApiResponse, Pagination, PaginatedApiResponse } from '@/types/api'
 export type {
   Entity,
   CreateInput,
@@ -6,5 +6,5 @@ export type {
   ValidationError,
   ValidationResult,
   RepositoryContract,
-} from './repository'
-export type { ResponseStatus, ControllerContract } from './controller'
+} from '@/types/repository'
+export type { ResponseStatus, ControllerContract } from '@/types/controller'

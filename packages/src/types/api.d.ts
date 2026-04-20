@@ -4,3 +4,12 @@ export type ApiResponse<T = unknown> = {
   data: T
   error?: string
 }
+
+export type Pagination<T> = {
+  items: T[]
+  total: number
+  page: number
+  limit: number
+}
+
+export type PaginatedApiResponse<T> = ApiResponse<Pagination<T>>
