@@ -20,14 +20,6 @@
       "types": "./packages/dist/repository/index.d.ts",
       "default": "./packages/dist/repository/index.js"
     },
-    "./base-controller": {
-      "types": "./packages/dist/controller/base-controller.d.ts",
-      "default": "./packages/dist/controller/base-controller.js"
-    },
-    "./base-repository": {
-      "types": "./packages/dist/repository/base-repository.d.ts",
-      "default": "./packages/dist/repository/base-repository.js"
-    },
     "./fields": {
       "types": "./packages/dist/fields/index.d.ts",
       "default": "./packages/dist/fields/index.js"

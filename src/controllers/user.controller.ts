@@ -3,6 +3,8 @@ import { userRepo, type User } from '../repositories/user.repo.js'
 
 class UserController extends Controller<User> {
   readonly repository = userRepo
+
+  readonly group = 'api'
   readonly prefix = 'users'
 
   protected override registered(): void {

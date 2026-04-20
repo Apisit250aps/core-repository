@@ -24,16 +24,7 @@
       "@aps/next-api-core/repository": [
         "./packages/dist/repository/index.d.ts"
       ],
-      "@aps/next-api-core/base-controller": [
-        "./packages/dist/controller/base-controller.d.ts"
-      ],
-      "@aps/next-api-core/base-repository": [
-        "./packages/dist/repository/base-repository.d.ts"
-      ],
       "@aps/next-api-core/fields": [
-        "./packages/dist/fields/index.d.ts"
-      ],
-      "@aps/next-api-core/field": [
         "./packages/dist/fields/index.d.ts"
       ],
       "@aps/next-api-types": [
