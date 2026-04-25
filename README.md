@@ -220,6 +220,7 @@ npm run clean:packages
 ## Release Notes
 
 - [Versions](./release/versions.md)
+- [v0.2.1](./release/v0-2-1.md)
 - [v0.2.0](./release/v0-2-0.md)
 
 ## Notes
